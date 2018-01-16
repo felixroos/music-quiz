@@ -917,7 +917,12 @@ var Task = (function () {
 
 
 function randomChain(b, indices) {
+    // resolves a chain of blocks. uses preset with label of last blocks result
     return b.reduce(function (results, current, i) {
+        if (typeof current === 'string') {
+            results.unshift(current);
+            return results;
+        }
         var preset = results.length ? current.presets.find(function (p) { return p.label === results[0]; }) : null;
         results.unshift(preset ? current.randomItem(current.renderPreset(preset)) :
             current.randomItem(indices ? current.renderSynonyms(indices[i]) : current.selection)); // with indices, you can shift the default index for a chunk (e.g. moll instead of -)
@@ -940,9 +945,9 @@ var tasks = [
     new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Vorzeichen von Skalen', function () {
         return randomString(['Vorzeichen von ', __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes, ' ', __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].scales]);
     }, []),
-    new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Mollparallelen', function () {
-        return randomString(['Mollparallele von ', __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes]);
-    }, []),
+    /* new Task('Mollparallelen', () => {
+        return randomString(['Mollparallele von ', chunks.notes]);
+    }, []), */
     new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Stufe in Skala', function () {
         var results = randomChain([__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].scales, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].steps]);
         var note = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.randomItem();
@@ -978,7 +983,28 @@ var tasks = [
         var seventh = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].sevenths.randomItem();
         var inversion = i.randomItem(i.renderPreset(i.presets.find(function (p) { return p.label === 'Vierklang'; })));
         return "" + note + seventh + " " + inversion;
-    }, [__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool])
+    }, [__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool]),
+    new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Vierklang mit tiefstem Ton', function () {
+        var i = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].inversions;
+        var note = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.randomItem();
+        var seventh = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].sevenths.randomItem();
+        var inversion = i.randomItem(i.renderPreset(i.presets.find(function (p) { return p.label === 'Vierklang'; })));
+        return seventh + " " + inversion + ", tiefster Ton " + note;
+    }, [__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool, __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool]),
+    new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Stufenakkord', function () {
+        var results = randomChain(['ionisch', __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].steps]);
+        var note = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.randomItem();
+        return "Akkord der " + results[0] + ". Stufe in " + note + " " + results[1];
+    }, [__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool]),
+    new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Akkorde zuordnen', function () {
+        var results = randomChain(['diatonisch', __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].sevenths]);
+        var note = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.randomItem();
+        return "Wo findet man " + note + results[0] + "?";
+    }, [__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool]),
+    new __WEBPACK_IMPORTED_MODULE_1__task__["a" /* Task */]('Zufallston', function () {
+        var note = __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.randomItem();
+        return "" + note;
+    }, [__WEBPACK_IMPORTED_MODULE_0__toggle_chunk_chunks__["a" /* chunks */].notes.pool]),
 ];
 
 
@@ -1112,7 +1138,7 @@ var chunks = {
             use: ['1', 'b9', 'b3', '11', 'b5', 'b13', 'b7']
         },
         {
-            label: '^',
+            label: '△',
             use: ['1', '3', '5']
         },
         {
@@ -1128,7 +1154,7 @@ var chunks = {
             use: ['1', 'b3', 'b5']
         },
         {
-            label: '^7',
+            label: '△7',
             use: ['1', '3', '5', '7']
         },
         {
@@ -1152,8 +1178,13 @@ var chunks = {
             use: ['1', 'b3', 'b5', '13']
         },
     ]),
-    triads: new __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_toggle_chunk__["a" /* ToggleChunk */]('Dreiklänge', [['^', 'dur'], ['-', 'moll'], ['+', 'übermäßig'], ['o', 'vermindert']], [], null, 1),
-    sevenths: new __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_toggle_chunk__["a" /* ToggleChunk */]('Vierklänge', ['^7', '7', '-7', '+7', 'h7', 'o7'])
+    triads: new __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_toggle_chunk__["a" /* ToggleChunk */]('Dreiklänge', [['△', 'dur'], ['-', 'moll'], ['+', 'übermäßig'], ['o', 'vermindert']], [], null, 1),
+    sevenths: new __WEBPACK_IMPORTED_MODULE_0__toggle_chunk_toggle_chunk__["a" /* ToggleChunk */]('Vierklänge', ['△7', '7', '-7', '+7', '-7b5', 'o7', '-△7', '△7#5', '7#5', '7b5'], [
+        {
+            label: 'diatonisch',
+            use: ['△7', '7', '-7', '-7b5']
+        }
+    ])
 };
 
 

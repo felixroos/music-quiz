@@ -119,7 +119,7 @@ export const chunks = {
                 use: ['1', 'b9', 'b3', '11', 'b5', 'b13', 'b7']
             },
             {
-                label: '^',
+                label: '△',
                 use: ['1', '3', '5']
             },
             {
@@ -135,7 +135,7 @@ export const chunks = {
                 use: ['1', 'b3', 'b5']
             },
             {
-                label: '^7',
+                label: '△7',
                 use: ['1', '3', '5', '7']
             },
             {
@@ -159,6 +159,11 @@ export const chunks = {
                 use: ['1', 'b3', 'b5', '13']
             },
         ]),
-    triads: new ToggleChunk('Dreiklänge', [['^', 'dur'], ['-', 'moll'], ['+', 'übermäßig'], ['o', 'vermindert']], [], null, 1),
-    sevenths: new ToggleChunk('Vierklänge', ['^7', '7', '-7', '+7', 'h7', 'o7'])
+    triads: new ToggleChunk('Dreiklänge', [['△', 'dur'], ['-', 'moll'], ['+', 'übermäßig'], ['o', 'vermindert']], [], null, 1),
+    sevenths: new ToggleChunk('Vierklänge', ['△7', '7', '-7', '+7', '-7b5', 'o7', '-△7', '△7#5', '7#5', '7b5'], [
+        {
+            label: 'diatonisch',
+            use: ['△7', '7', '-7', '-7b5']
+        }
+    ])
 };

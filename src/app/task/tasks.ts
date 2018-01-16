@@ -2,8 +2,13 @@ import { chunks } from '../toggle-chunk/chunks';
 import { Task } from './task';
 import { ToggleChunk } from '../toggle-chunk/toggle-chunk';
 
-function randomChain(b: ToggleChunk[], indices?: number[]) { // resolves a chain of blocks. uses preset with label of last blocks result
+function randomChain(b: (ToggleChunk | string)[], indices?: number[]) {
+    // resolves a chain of blocks. uses preset with label of last blocks result
     return b.reduce((results, current, i): ToggleChunk[] => {
+        if (typeof current === 'string') {
+            results.unshift(current);
+            return results;
+        }
         const preset = results.length ? current.presets.find(p => p.label === results[0]) : null;
         results.unshift(preset ? current.randomItem(current.renderPreset(preset)) :
             current.randomItem(indices ? current.renderSynonyms(indices[i]) : current.selection)
@@ -29,9 +34,9 @@ export const tasks = [
     new Task('Vorzeichen von Skalen', () => {
         return randomString(['Vorzeichen von ', chunks.notes, ' ', chunks.scales]);
     }, []),
-    new Task('Mollparallelen', () => {
+    /* new Task('Mollparallelen', () => {
         return randomString(['Mollparallele von ', chunks.notes]);
-    }, []),
+    }, []), */
     new Task('Stufe in Skala', () => {
         const results = randomChain([chunks.scales, chunks.steps]);
         const note = chunks.notes.randomItem();
@@ -67,5 +72,26 @@ export const tasks = [
         const seventh = chunks.sevenths.randomItem();
         const inversion = i.randomItem(i.renderPreset(i.presets.find(p => p.label === 'Vierklang')));
         return `${note}${seventh} ${inversion}`;
-    }, [chunks.notes.pool, chunks.notes.pool, chunks.notes.pool, chunks.notes.pool])
+    }, [chunks.notes.pool, chunks.notes.pool, chunks.notes.pool, chunks.notes.pool]),
+    new Task('Vierklang mit tiefstem Ton', () => {
+        const i = chunks.inversions;
+        const note = chunks.notes.randomItem();
+        const seventh = chunks.sevenths.randomItem();
+        const inversion = i.randomItem(i.renderPreset(i.presets.find(p => p.label === 'Vierklang')));
+        return `${seventh} ${inversion}, tiefster Ton ${note}`;
+    }, [chunks.notes.pool, chunks.notes.pool, chunks.notes.pool, chunks.notes.pool]),
+    new Task('Stufenakkord', () => {
+        const results = randomChain(['ionisch', chunks.steps]);
+        const note = chunks.notes.randomItem();
+        return `Akkord der ${results[0]}. Stufe in ${note} ${results[1]}`;
+    }, [chunks.notes.pool]),
+    new Task('Akkorde zuordnen', () => {
+        const results = randomChain(['diatonisch', chunks.sevenths]);
+        const note = chunks.notes.randomItem();
+        return `Wo findet man ${note}${results[0]}?`;
+    }, [chunks.notes.pool]),
+    new Task('Zufallston', () => {
+        const note = chunks.notes.randomItem();
+        return `${note}`;
+    }, [chunks.notes.pool]),
 ];
