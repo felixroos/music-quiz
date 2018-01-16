@@ -5,8 +5,9 @@
   },
   "apps": [
     {
+      "baseHref": "/music-quiz/app/",
       "root": "src",
-      "outDir": "dist",
+      "outDir": "app",
       "assets": [
         "assets",
         "favicon.ico"
