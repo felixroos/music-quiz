@@ -1,0 +1,15 @@
+<div>
+  <h3 *ngIf="chunk.label">{{chunk.items().length}} / {{chunk.pool.length}} {{chunk.label}}</h3>
+  <ul class="presets" [hidden]="hidePresets">
+    <li *ngFor="let preset of chunk.presets" (click)="chunk.usePreset(preset)" [class.active]="chunk.isPresetActive(preset)">
+      {{preset?.label}}
+    </li>
+  </ul>
+  <div>
+    <ul>
+      <li *ngFor="let item of chunk.pool;let i = index" (click)="chunk.toggle(item, i)" [class.active]="chunk.isActive(item)">
+        {{chunk.getItemLabel(item)}}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div *ngIf="task">
+  <h1>{{task.question}}</h1>
+  <!-- <app-toggle-chunk *ngFor="let pool of task.pools" [pool]="pool" [empty]="true" [hidePresets]="true"></app-toggle-chunk> -->
+  <ul>
+    <li>
+      <a (click)="nextQuestion()">Weiter</a>
+    </li>
+  </ul>
+</div>

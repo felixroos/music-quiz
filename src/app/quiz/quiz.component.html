@@ -1,0 +1,19 @@
+<ul class="divided menu">
+  <li *ngFor="let task of tasks" [class.active]="isActive(task)">
+    <a (click)="setTask(task)">{{task.label}}</a>
+  </li>
+  <li [class.active]="showSettings">
+    <a (click)="showSettings=!showSettings">Einstellungen</a>
+  </li>
+</ul>
+<app-task [task]="task"></app-task>
+<ul [hidden]="!showSettings" class="menu">
+  <app-toggle-chunk [chunk]="chunks.notes"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.scales"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.intervals"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.directions"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.inversions"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.steps"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.triads"></app-toggle-chunk>
+  <app-toggle-chunk [chunk]="chunks.sevenths"></app-toggle-chunk>
+</ul>

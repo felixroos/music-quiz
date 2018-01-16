@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+  padding: 0;
+  margin: 0;
+  color: #292434;
+  /* color: #CCC4B8; */
+  /*  */
+  /* color: #8C968F; */
+  background: #8E9AA5;
+  font-family: 'Pangolin', cursive;
+  ul {
+    padding: 5px;
+    margin: 0;
+    &.menu {
+      background: #D1D0C6;
+    }
+    li {
+      display: inline-block;
+      list-style: none;
+      padding: 5px;
+      transition: all .2s linear;
+      min-width: 25px;
+      margin-right: 2px;
+      text-align: center;
+      &.active {
+        opacity: 1;
+        background: #A1998A;
+      }
+      a {
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+    &.divided {
+      li {
+        border-right: 1px solid #292434;
+      }
+    }
+  }
+}
