@@ -1,6 +1,7 @@
 # music-quiz
 
 This App generates all sorts of questions to learn music theory in all keys.
+[DEMO](https://felixroos.github.io/music-quiz/app/)
 
 # Developer Info
 
