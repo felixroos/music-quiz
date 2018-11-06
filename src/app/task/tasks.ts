@@ -22,6 +22,10 @@ function randomString(input: (ToggleChunk | string)[]) {
 }
 
 export const tasks = [
+    new Task('Zufallston', () => {
+        const note = chunks.notes.randomItem();
+        return `${note}`;
+    }, [chunks.notes.pool]),
     new Task('Intervalle', () => {
         return randomString([chunks.notes, ' ', chunks.intervals, ' ', chunks.directions]);
     }, []),
@@ -90,8 +94,22 @@ export const tasks = [
         const note = chunks.notes.randomItem();
         return `Wo findet man ${note}${results[0]}?`;
     }, [chunks.notes.pool]),
-    new Task('Zufallston', () => {
+    new Task('Zwischendominanten', () => {
         const note = chunks.notes.randomItem();
-        return `${note}`;
+        const steps = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+        const step = steps[Math.floor(Math.random() * steps.length)];
+        return `${Math.random() > .7 ? 'Sub' : ''}V/${step} in ${note} dur`;
     }, [chunks.notes.pool]),
+    new Task('Zwischendominanten moll', () => {
+        const note = chunks.notes.randomItem();
+        const steps = ['I', 'II', 'bIII', 'IV', 'V', 'bVI', 'bVII'];
+        const step = steps[Math.floor(Math.random() * steps.length)];
+        return `${Math.random() > .7 ? 'Sub' : ''}V/${step} in ${note} dur`;
+    }, [chunks.notes.pool]),
+    /* new Task('Verminderte Akkorde', () => {
+        const note = chunks.notes.randomItem();
+        const steps = ['bIII', 'IV', 'V', 'bVI', 'bVII'];
+        const step = steps[Math.floor(Math.random() * steps.length)];
+        return `${note}o7 in ${note} ${Math.random() > .7 ? 'moll' : 'dur'}`;
+    }, [chunks.notes.pool]), */
 ];
